@@ -1,0 +1,111 @@
+services:
+  D-School-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: digitschool
+      POSTGRES_PASSWORD: digitschool
+      POSTGRES_DB: digitschool
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "6001:5432"
+
+  D-School-redis:
+    image: redis:7-alpine
+    ports:
+      - "6002:6379"
+
+  D-School-auth:
+    build: ./services/auth
+    environment:
+      DATABASE_URL: postgres://digitschool:digitschool@D-School-postgres:5432/digitschool
+      REDIS_URL: redis://D-School-redis:6379
+      JWT_SECRET: "change-me-in-prod"
+      SERVICE_SCHEMA: auth
+      NODE_ENV: production
+    ports:
+      - "6003:3000"
+    depends_on:
+      - D-School-postgres
+      - D-School-redis
+
+  D-School-user:
+    build: ./services/user
+    environment:
+      DATABASE_URL: postgres://digitschool:digitschool@D-School-postgres:5432/digitschool
+      REDIS_URL: redis://D-School-redis:6379
+      SERVICE_SCHEMA: "usr"
+      NODE_ENV: production
+    ports:
+      - "6004:3000"
+    depends_on:
+      - D-School-postgres
+      - D-School-redis
+
+  D-School-academic:
+    build: ./services/academic
+    environment:
+      DATABASE_URL: postgres://digitschool:digitschool@D-School-postgres:5432/digitschool
+      REDIS_URL: redis://D-School-redis:6379
+      SERVICE_SCHEMA: academic
+      NODE_ENV: production
+    ports:
+      - "6005:3000"
+    depends_on:
+      - D-School-postgres
+      - D-School-redis
+
+  D-School-timetable:
+    build: ./services/timetable
+    environment:
+      DATABASE_URL: postgres://digitschool:digitschool@D-School-postgres:5432/digitschool
+      REDIS_URL: redis://D-School-redis:6379
+      SERVICE_SCHEMA: timetable
+      NODE_ENV: production
+    ports:
+      - "6006:3000"
+    depends_on:
+      - D-School-postgres
+      - D-School-redis
+
+  D-School-report:
+    build: ./services/report
+    environment:
+      DATABASE_URL: postgres://digitschool:digitschool@D-School-postgres:5432/digitschool
+      REDIS_URL: redis://D-School-redis:6379
+      SERVICE_SCHEMA: report
+      NODE_ENV: production
+    ports:
+      - "6007:3000"
+    depends_on:
+      - D-School-postgres
+      - D-School-redis
+
+  D-School-frontend:
+    build: ./frontend
+    environment:
+      VITE_API_BASE: http://localhost:6080
+    ports:
+      - "6008:80"
+    depends_on:
+      - D-School-auth
+      - D-School-user
+      - D-School-academic
+      - D-School-timetable
+      - D-School-report
+
+  D-School-nginx:
+    build: ./reverse-proxy
+    depends_on:
+      - D-School-auth
+      - D-School-user
+      - D-School-academic
+      - D-School-timetable
+      - D-School-report
+      - D-School-frontend
+    ports:
+      - "6080:80"
+
+volumes:
+  pgdata:
