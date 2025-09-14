@@ -29,6 +29,7 @@ services:
     depends_on:
       - d-school-postgres
       - d-school-redis
+    restart: unless-stopped
 
   d-school-user:
     build: ./services/user
@@ -106,6 +107,7 @@ services:
       - d-school-frontend
     ports:
       - "6080:80"
+    restart: unless-stopped
 
 volumes:
   pgdata:
