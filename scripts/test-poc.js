@@ -198,7 +198,7 @@ async function checkAPI() {
     return true;
   } catch (error) {
     log('❌ L\'API n\'est pas accessible. Assurez-vous que Docker Compose est démarré.', 'red');
-    log('Commande: docker-compose up --build', 'yellow');
+    log('Commande: docker-compose up --build -d', 'yellow');
     return false;
   }
 }

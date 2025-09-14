@@ -7,11 +7,11 @@ Proof of Concept (POC) pour DigitSchool, une plateforme de gestion scolaire num�
 ## 🏗️ Architecture
 
 ### Microservices Backend
-- **D-School-auth** (Port 6003) : Authentification JWT et gestion des rôles
-- **D-School-user** (Port 6004) : Gestion des classes et assignations
-- **D-School-academic** (Port 6005) : Notes, moyennes et progression
-- **D-School-timetable** (Port 6006) : Gestion des emplois du temps
-- **D-School-report** (Port 6007) : Génération de rapports PDF
+- **d-school-auth** (Port 6003) : Authentification JWT et gestion des rôles
+- **d-school-user** (Port 6004) : Gestion des classes et assignations
+- **d-school-academic** (Port 6005) : Notes, moyennes et progression
+- **d-school-timetable** (Port 6006) : Gestion des emplois du temps
+- **d-school-report** (Port 6007) : Génération de rapports PDF
 
 ### Frontend
 - **React + Vite** : Interface utilisateur moderne
@@ -19,10 +19,10 @@ Proof of Concept (POC) pour DigitSchool, une plateforme de gestion scolaire num�
 - **4 vues principales** : Login, Dashboard, Saisie notes, Consultation bulletins
 
 ### Infrastructure
-- **D-School-postgres** (Port 6001) : Base de données unique avec schémas séparés
-- **D-School-redis** (Port 6002) : Cache et notifications temps réel
-- **D-School-nginx** (Port 6080) : Reverse proxy pour routage des services
-- **D-School-frontend** (Port 6008) : Interface utilisateur React
+- **d-school-postgres** (Port 6001) : Base de données unique avec schémas séparés
+- **d-school-redis** (Port 6002) : Cache et notifications temps réel
+- **d-school-nginx** (Port 6080) : Reverse proxy pour routage des services
+- **d-school-frontend** (Port 6008) : Interface utilisateur React
 - **Docker Compose** : Orchestration complète
 
 ## 🚀 Installation et Démarrage
@@ -101,11 +101,11 @@ Le script `scripts/seed-data.sql` contient des données de test pour démonstrat
 - `SERVICE_SCHEMA` : Schéma de base de données par service
 
 ### Ports
-- 6080 : D-School-nginx (point d'entrée)
-- 6003-6007 : Services backend D-School
-- 6001 : D-School-postgres
-- 6002 : D-School-redis
-- 6008 : D-School-frontend
+- 6080 : d-school-nginx (point d'entrée)
+- 6003-6007 : Services backend d-school
+- 6001 : d-school-postgres
+- 6002 : d-school-redis
+- 6008 : d-school-frontend
 
 ## 📈 Fonctionnalités
 
@@ -140,15 +140,15 @@ Le script `scripts/seed-data.sql` contient des données de test pour démonstrat
 ### Services
 ```yaml
 services:
-  - D-School-postgres: Base de données (Port 6001)
-  - D-School-redis: Cache (Port 6002)
-  - D-School-auth: Service authentification (Port 6003)
-  - D-School-user: Service utilisateurs (Port 6004)
-  - D-School-academic: Service académique (Port 6005)
-  - D-School-timetable: Service emploi du temps (Port 6006)
-  - D-School-report: Service rapports (Port 6007)
-  - D-School-frontend: Interface React (Port 6008)
-  - D-School-nginx: Reverse proxy (Port 6080)
+  - d-school-postgres: Base de données (Port 6001)
+  - d-school-redis: Cache (Port 6002)
+  - d-school-auth: Service authentification (Port 6003)
+  - d-school-user: Service utilisateurs (Port 6004)
+  - d-school-academic: Service académique (Port 6005)
+  - d-school-timetable: Service emploi du temps (Port 6006)
+  - d-school-report: Service rapports (Port 6007)
+  - d-school-frontend: Interface React (Port 6008)
+  - d-school-nginx: Reverse proxy (Port 6080)
 ```
 
 ### Volumes

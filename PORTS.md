@@ -4,15 +4,15 @@
 
 | Service | Port Externe | Port Interne | Description |
 |---------|-------------|-------------|-------------|
-| **D-School-nginx** | 6080 | 80 | Point d'entrée principal (Reverse Proxy) |
-| **D-School-postgres** | 6001 | 5432 | Base de données PostgreSQL |
-| **D-School-redis** | 6002 | 6379 | Cache Redis |
-| **D-School-auth** | 6003 | 3000 | Service d'authentification |
-| **D-School-user** | 6004 | 3000 | Service de gestion des utilisateurs |
-| **D-School-academic** | 6005 | 3000 | Service académique (notes, moyennes) |
-| **D-School-timetable** | 6006 | 3000 | Service d'emploi du temps |
-| **D-School-report** | 6007 | 3000 | Service de génération de rapports |
-| **D-School-frontend** | 6008 | 80 | Interface utilisateur React |
+| **d-school-nginx** | 6080 | 80 | Point d'entrée principal (Reverse Proxy) |
+| **d-school-postgres** | 6001 | 5432 | Base de données PostgreSQL |
+| **d-school-redis** | 6002 | 6379 | Cache Redis |
+| **d-school-auth** | 6003 | 3000 | Service d'authentification |
+| **d-school-user** | 6004 | 3000 | Service de gestion des utilisateurs |
+| **d-school-academic** | 6005 | 3000 | Service académique (notes, moyennes) |
+| **d-school-timetable** | 6006 | 3000 | Service d'emploi du temps |
+| **d-school-report** | 6007 | 3000 | Service de génération de rapports |
+| **d-school-frontend** | 6008 | 80 | Interface utilisateur React |
 
 ## 🌐 Accès aux Services
 
@@ -49,10 +49,10 @@
 ### Variables d'Environnement
 ```bash
 # Base de données
-DATABASE_URL=postgres://digitschool:digitschool@D-School-postgres:5432/digitschool
+DATABASE_URL=postgres://digitschool:digitschool@d-school-postgres:5432/digitschool
 
 # Cache
-REDIS_URL=redis://D-School-redis:6379
+REDIS_URL=redis://d-school-redis:6379
 
 # Frontend
 VITE_API_BASE=http://localhost:6080
@@ -110,13 +110,13 @@ curl http://localhost:6007/health  # Report service
 docker-compose logs
 
 # Logs d'un service spécifique
-docker-compose logs D-School-auth
-docker-compose logs D-School-user
-docker-compose logs D-School-academic
-docker-compose logs D-School-timetable
-docker-compose logs D-School-report
-docker-compose logs D-School-nginx
-docker-compose logs D-School-frontend
+docker-compose logs d-school-auth
+docker-compose logs d-school-user
+docker-compose logs d-school-academic
+docker-compose logs d-school-timetable
+docker-compose logs d-school-report
+docker-compose logs d-school-nginx
+docker-compose logs d-school-frontend
 ```
 
 ## 🎯 Points d'Accès Principaux
