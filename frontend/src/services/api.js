@@ -1,6 +1,29 @@
 import axios from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE || 'http://localhost:8080'
+// Configuration de l'API qui fonctionne en local et sur serveur
+const getApiBaseUrl = () => {
+  // Utiliser la variable d'environnement si définie
+  if (import.meta.env.VITE_API_BASE) {
+    return import.meta.env.VITE_API_BASE
+  }
+  
+  // Détection automatique de l'environnement
+  const hostname = window.location.hostname
+  const port = window.location.port
+  
+  // Si on est sur localhost, utiliser le port 6080
+  if (hostname === 'localhost' || hostname === '127.0.0.1') {
+    return 'http://localhost:6080'
+  }
+  
+  // Sur serveur, utiliser le même hostname avec le port 6080
+  return `http://${hostname}:6080`
+}
+
+const API_BASE_URL = getApiBaseUrl()
+
+// Debug: afficher l'URL de l'API utilisée
+console.log('🔗 API Base URL:', API_BASE_URL)
 
 export const api = axios.create({
   baseURL: API_BASE_URL,

@@ -97,6 +97,7 @@ services:
     depends_on:
       - d-school-postgres
       - d-school-redis
+    restart: unless-stopped
 
   d-school-nginx:
     build: ./reverse-proxy
