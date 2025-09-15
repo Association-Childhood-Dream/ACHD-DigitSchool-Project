@@ -95,11 +95,8 @@ services:
     ports:
       - "6008:80"
     depends_on:
-      - d-school-auth
-      - d-school-user
-      - d-school-academic
-      - d-school-timetable
-      - d-school-report
+      - d-school-postgres
+      - d-school-redis
 
   d-school-nginx:
     build: ./reverse-proxy
