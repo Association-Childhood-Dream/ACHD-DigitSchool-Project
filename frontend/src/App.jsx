@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import Login from './components/Login'
 import Dashboard from './components/Dashboard'
 import GradeEntry from './components/GradeEntry'
@@ -14,11 +14,9 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<ProtectedRoute />}>
-              <Route index element={<Dashboard />} />
-              <Route path="grades" element={<GradeEntry />} />
-              <Route path="reports" element={<ReportView />} />
-            </Route>
+            <Route path="/" element={<ProtectedRoute />} />
+            <Route path="/grades" element={<ProtectedRoute />} />
+            <Route path="/reports" element={<ProtectedRoute />} />
           </Routes>
         </div>
       </Router>
@@ -28,6 +26,7 @@ function App() {
 
 function ProtectedRoute() {
   const { user, loading } = useAuth()
+  const navigate = useNavigate()
 
   if (loading) {
     return <div className="loading">Chargement...</div>
@@ -37,25 +36,39 @@ function ProtectedRoute() {
     return <Navigate to="/login" replace />
   }
 
+  // Déterminer quelle page afficher selon l'URL
+  const currentPath = window.location.pathname
+  
+  let content
+  if (currentPath === '/grades') {
+    content = <GradeEntry />
+  } else if (currentPath === '/reports') {
+    content = <ReportView />
+  } else {
+    content = <Dashboard />
+  }
+
   return (
     <div>
       <Navbar />
-      <Routes>
-        <Route index element={<Dashboard />} />
-        <Route path="grades" element={<GradeEntry />} />
-        <Route path="reports" element={<ReportView />} />
-      </Routes>
+      {content}
     </div>
   )
 }
 
 function Navbar() {
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [currentPath, setCurrentPath] = useState(window.location.pathname)
 
   useEffect(() => {
     setCurrentPath(window.location.pathname)
   }, [window.location.pathname])
+
+  const handleNavigation = (path) => {
+    navigate(path)
+    setCurrentPath(path)
+  }
 
   return (
     <nav className="navbar">
@@ -68,9 +81,7 @@ function Navbar() {
               className={currentPath === '/' ? 'active' : ''}
               onClick={(e) => {
                 e.preventDefault()
-                window.history.pushState({}, '', '/')
-                setCurrentPath('/')
-                window.dispatchEvent(new PopStateEvent('popstate'))
+                handleNavigation('/')
               }}
             >
               Dashboard
@@ -83,9 +94,7 @@ function Navbar() {
                 className={currentPath === '/grades' ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault()
-                  window.history.pushState({}, '', '/grades')
-                  setCurrentPath('/grades')
-                  window.dispatchEvent(new PopStateEvent('popstate'))
+                  handleNavigation('/grades')
                 }}
               >
                 Saisie des notes
@@ -99,9 +108,7 @@ function Navbar() {
                 className={currentPath === '/reports' ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault()
-                  window.history.pushState({}, '', '/reports')
-                  setCurrentPath('/reports')
-                  window.dispatchEvent(new PopStateEvent('popstate'))
+                  handleNavigation('/reports')
                 }}
               >
                 Mes bulletins

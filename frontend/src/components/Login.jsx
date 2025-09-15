@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
 function Login() {
@@ -6,7 +6,14 @@ function Login() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login } = useAuth()
+  const { login, user } = useAuth()
+
+  // Rediriger si l'utilisateur est déjà connecté
+  useEffect(() => {
+    if (user) {
+      window.location.href = '/'
+    }
+  }, [user])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -15,7 +22,10 @@ function Login() {
 
     const result = await login(email, password)
     
-    if (!result.success) {
+    if (result.success) {
+      // Redirection automatique après connexion réussie
+      window.location.href = '/'
+    } else {
       setError(result.error)
     }
     
