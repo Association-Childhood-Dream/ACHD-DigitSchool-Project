@@ -30,6 +30,11 @@ services:
       - d-school-postgres
       - d-school-redis
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   d-school-user:
     build: ./services/user
