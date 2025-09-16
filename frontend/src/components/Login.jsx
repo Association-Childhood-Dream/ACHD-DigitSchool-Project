@@ -11,7 +11,7 @@ function Login() {
   // Rediriger si l'utilisateur est déjà connecté
   useEffect(() => {
     if (user) {
-      window.location.href = '/'
+      window.location.href = '/pages'
     }
   }, [user])
 
@@ -24,7 +24,7 @@ function Login() {
     
     if (result.success) {
       // Redirection automatique après connexion réussie
-      window.location.href = '/'
+      window.location.href = '/pages'
     } else {
       setError(result.error)
     }

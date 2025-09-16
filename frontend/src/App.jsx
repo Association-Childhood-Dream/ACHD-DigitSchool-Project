@@ -14,9 +14,10 @@ function App() {
         <div className="App">
           <Routes>
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<ProtectedRoute />} />
-            <Route path="/grades" element={<ProtectedRoute />} />
-            <Route path="/reports" element={<ProtectedRoute />} />
+            <Route path="/pages" element={<ProtectedRoute />} />
+            <Route path="/pages/grades" element={<ProtectedRoute />} />
+            <Route path="/pages/reports" element={<ProtectedRoute />} />
+            <Route path="/" element={<Navigate to="/pages" replace />} />
           </Routes>
         </div>
       </Router>
@@ -40,9 +41,9 @@ function ProtectedRoute() {
   const currentPath = window.location.pathname
   
   let content
-  if (currentPath === '/grades') {
+  if (currentPath === '/pages/grades') {
     content = <GradeEntry />
-  } else if (currentPath === '/reports') {
+  } else if (currentPath === '/pages/reports') {
     content = <ReportView />
   } else {
     content = <Dashboard />
@@ -66,8 +67,9 @@ function Navbar() {
   }, [window.location.pathname])
 
   const handleNavigation = (path) => {
-    navigate(path)
-    setCurrentPath(path)
+    const fullPath = path === '/' ? '/pages' : `/pages${path}`
+    navigate(fullPath)
+    setCurrentPath(fullPath)
   }
 
   return (
@@ -77,8 +79,8 @@ function Navbar() {
         <ul className="navbar-nav">
           <li>
             <a 
-              href="/" 
-              className={currentPath === '/' ? 'active' : ''}
+              href="/pages" 
+              className={currentPath === '/pages' ? 'active' : ''}
               onClick={(e) => {
                 e.preventDefault()
                 handleNavigation('/')
@@ -90,8 +92,8 @@ function Navbar() {
           {user?.role === 'teacher' && (
             <li>
               <a 
-                href="/grades" 
-                className={currentPath === '/grades' ? 'active' : ''}
+                href="/pages/grades" 
+                className={currentPath === '/pages/grades' ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault()
                   handleNavigation('/grades')
@@ -104,8 +106,8 @@ function Navbar() {
           {(user?.role === 'student' || user?.role === 'parent') && (
             <li>
               <a 
-                href="/reports" 
-                className={currentPath === '/reports' ? 'active' : ''}
+                href="/pages/reports" 
+                className={currentPath === '/pages/reports' ? 'active' : ''}
                 onClick={(e) => {
                   e.preventDefault()
                   handleNavigation('/reports')
