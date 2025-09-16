@@ -1,5 +1,4 @@
 import express from 'express';
-import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
 import db from './db.js';
@@ -84,9 +83,8 @@ router.post('/register', async (req, res) => {
       return err(res, 'Email déjà utilisé', 409);
     }
 
-    // Hasher le mot de passe
-    const saltRounds = 12;
-    const passwordHash = await bcrypt.hash(password, saltRounds);
+    // Stocker le mot de passe en clair pour simplifier le développement
+    const passwordHash = password;
 
     // Créer l'utilisateur
     const result = await db.query(
@@ -122,9 +120,8 @@ router.post('/login', async (req, res) => {
 
     const user = result.rows[0];
 
-    // Vérifier le mot de passe
-    const isValidPassword = await bcrypt.compare(password, user.password_hash);
-    if (!isValidPassword) {
+    // Vérifier le mot de passe (comparaison directe pour simplifier le développement)
+    if (password !== user.password_hash) {
       return err(res, 'Email ou mot de passe incorrect', 401);
     }
 
