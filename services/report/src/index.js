@@ -10,5 +10,5 @@ app.use(bodyParser.json());
 app.get('/health', (req,res)=>res.json({ ok:true, service:"report" }));
 app.use('/', routes);
 
-const PORT = 3004;
+const PORT = 3000;
 app.listen(PORT, ()=> console.log('[report] listening on', PORT));
